@@ -7,5 +7,6 @@ mvnw text eol=lf
 *.html text eol=lf
 *.md text eol=lf
 *.puml text eol=lf
+docs/verification/*.json text eol=lf
 *.png binary
 *.pdf binary
