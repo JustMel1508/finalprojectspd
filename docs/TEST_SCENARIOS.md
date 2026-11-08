@@ -26,5 +26,6 @@
 | T19 | Неполный Builder, неизвестный вариант фабрики | build / prepare | Отклонение несогласованных данных | Проверены 10 Builder, Quiz/Map products, неверные координаты | builderAndFactory...; Passed |
 | T20 | QuizResult + MapTaskResult | accept обоих Visitor | Двойная диспетчеризация, статистика и TXT | Проверены разные visit и координаты карты | bothVisitorsDoubleDispatch; Passed |
 | T21 | 8 одновременных create | threads, reload snapshot | Нет потерянных записей | Всего 9 профилей с demo | concurrentRequestsSerialized; Passed |
+| T22 | Модели DOM/Canvas, без браузера | 60/144 Hz, диагональ, коллизии, modal, blur, input, русская раскладка | Постоянная скорость и корректный ввод | Все 7 проверок Passed | node tools/ui_logic_test.cjs; Passed unit |
 
 Статус Passed означает реальную проверку указанного уровня. Автотест геометрии не является ручным UI-прохождением. Реальные скриншоты приложения отсутствуют; перед сдачей команда должна пройти T01/T11/T17b в браузере и добавить изображения карты, сцены и результата в отчёт.
