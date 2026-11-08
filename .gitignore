@@ -1,0 +1,8 @@
+target/
+data/
+.tools/
+.idea/
+*.log
+dist/
+tmp/
+__pycache__/
