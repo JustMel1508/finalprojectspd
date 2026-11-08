@@ -28,6 +28,58 @@
     {
       "check": "Diagonal speed is normalized",
       "status": "Passed"
+    },
+    {
+      "check": "Lost focus also clears click-to-walk target",
+      "status": "Passed"
+    },
+    {
+      "check": "Tasks button never renders its click event as feedback",
+      "status": "Passed"
+    },
+    {
+      "check": "Dialog replacement focuses its new controls",
+      "status": "Passed"
+    },
+    {
+      "check": "All ten scenes and thirty tasks render with approved DTOs",
+      "status": "Passed"
+    },
+    {
+      "check": "Map controls are separate, labelled and keyboard accessible in all chapters",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview accessible names use only permitted titles",
+      "status": "Passed"
+    },
+    {
+      "check": "Pending retry is isolated to player and attempt",
+      "status": "Passed"
+    },
+    {
+      "check": "Blocked localStorage does not crash server-backed play",
+      "status": "Passed"
+    },
+    {
+      "check": "Pointer coordinates scale to canvas coordinates",
+      "status": "Passed"
+    },
+    {
+      "check": "Busy operations ignore dialog buttons",
+      "status": "Passed"
+    },
+    {
+      "check": "Double click cannot answer twice or answer the next task",
+      "status": "Passed"
+    },
+    {
+      "check": "Retry after reload retains requestId and original answer",
+      "status": "Passed"
+    },
+    {
+      "check": "Invalid input clears pending answer and shows dialog error",
+      "status": "Passed"
     }
   ]
 }

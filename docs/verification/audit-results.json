@@ -15,13 +15,20 @@
     },
     {
       "name": "edu.historyjourney.HttpApiTest",
-      "tests": "2",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "edu.historyjourney.SavedStateValidationTest",
+      "tests": "30",
       "failures": "0",
       "errors": "0",
       "skipped": "0"
     }
   ],
-  "uiStatus": "Not run: browser host unavailable; Computer Use stopped Chrome access because URL could not be determined",
+  "uiStatus": "Not run: browser access host unavailable; new-tab request to local game failed",
   "studentIndependentWork": "Not confirmed",
   "sourceOrigin": "New AI-assisted implementation in separate history-journey directory"
 }

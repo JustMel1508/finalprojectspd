@@ -1,3 +1,0 @@
-﻿29359dd Build independent Java game with ten chapters and six integrated patterns
-04d481f Verify ten chapters, restart, failure rollback and masked API; add UML and launch scripts
-5c9c0ad Document sources, AI contribution, team defense, tested behavior and verified PDF report

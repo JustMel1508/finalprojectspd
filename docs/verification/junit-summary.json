@@ -8,7 +8,14 @@
   },
   {
     "name": "edu.historyjourney.HttpApiTest",
-    "tests": "2",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  {
+    "name": "edu.historyjourney.SavedStateValidationTest",
+    "tests": "30",
     "failures": "0",
     "errors": "0",
     "skipped": "0"

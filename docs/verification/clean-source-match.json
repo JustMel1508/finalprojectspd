@@ -1,7 +1,10 @@
 {
-  "matched": 64,
+  "matched": 75,
   "mismatches": [],
   "cleanBuild": "BUILD SUCCESS",
-  "junit": 16,
-  "processChecks": 60
+  "junit": 48,
+  "processChecks": 62,
+  "uiLogicUnitChecks": 20,
+  "jarResourcesMatch": true,
+  "chapters": 10
 }

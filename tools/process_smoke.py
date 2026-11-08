@@ -1,7 +1,7 @@
 """Real separate-process API and restart verification, standard Python only.
 Usage: python tools/process_smoke.py --java /path/to/java [--jar /path/to/jar]
 """
-import argparse,json,subprocess,tempfile,time,uuid,urllib.request,urllib.error,socket,os,shutil
+import argparse,json,subprocess,tempfile,time,uuid,urllib.request,urllib.error,socket
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 args=argparse.ArgumentParser()
@@ -43,7 +43,12 @@ with tempfile.TemporaryDirectory(prefix='history-process-',dir=scratch) as folde
         try:process.wait(timeout=12)
         except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
     process=launch()
+    succeeded=False
     try:
+        for resource in ['/','/app.js','/style.css','/assets/kazakhstan.svg','/assets/compass.svg']:
+            with opener.open(f'http://127.0.0.1:{port}'+resource,timeout=15) as response:
+                assert response.status==200 and response.read(),resource
+        check('HTML, JavaScript, CSS, map and icon are served locally',True)
         for name in ['', '   ','x'*41]:request('/players','POST',{'name':name,'avatar':'HERO'},400)
         check('HTTP validation of empty/blank/long names',True)
         p=request('/players','POST',{'name':'Проверка процесса','avatar':'HEROINE'},201)['id'];base='/players/'+p
@@ -63,6 +68,24 @@ with tempfile.TemporaryDirectory(prefix='history-process-',dir=scratch) as folde
         result=request(ap+'/finish','POST');request(ap+'/finish','POST')
         check('Finish idempotent and title revealed',result['result']['passed'] and request(base+'/summary')['completedAttempts']==1 and result['displayTitle'].startswith(content[0]['title']))
         txt=request(ap+'/export',raw=True);check('UTF-8 export matches saved statistics','Заданий: 3; верно: 3; ответов: 3; ошибок: 0' in txt)
+        # Required restart journey: mastered chapter 1, partially answered chapter 2.
+        second=content[1]
+        a=request(base+'/attempts','POST',{'chapterId':second['id'],'mode':'ASSESSMENT'},201)
+        second_id=a['id'];second_path=base+'/attempts/'+second_id
+        for n in second['npcs']:request(second_path+'/talk','POST',{'npcId':n['id']})
+        t=second['tasks'][0]
+        second_body={'requestId':str(uuid.uuid4()),'taskId':t['id'],'optionId':t['correctOptionId']}
+        request(second_path+'/answers','POST',second_body)
+        stop(process);process=launch()
+        resumed=request(base+'/active');progress=request(base+'/map')
+        check('Restart with chapter 1 mastered restores partial chapter 2',resumed['id']==second_id and resumed['chapterId']=='c2' and resumed['mode']=='ASSESSMENT' and len(resumed['visitedNpcs'])==2 and resumed['acceptedTasks']==1)
+        check('Restart retains revealed chapter 1 and next-level access',progress[0]['displayTitle'].startswith(content[0]['title']) and progress[1]['status']=='AVAILABLE' and progress[2]['status']=='LOCKED')
+        check('Restart retains previous result and profile',request(base+'/summary')['completedChapters']==1 and any(x['id']==aid and x['passed'] for x in request(base+'/history')) and any(x['id']==p and x['name']=='После перезапуска' and x['avatar']=='HERO' for x in request('/players')))
+        retried=request(second_path+'/answers','POST',second_body)
+        check('Duplicate answer after process restart keeps same stage',retried['acceptedTasks']==1 and retried['currentTask']['id']==second['tasks'][1]['id'])
+        for t in second['tasks'][1:]:request(second_path+'/answers','POST',{'requestId':str(uuid.uuid4()),'taskId':t['id'],'optionId':t['correctOptionId']})
+        second_result=request(second_path+'/finish','POST')
+        check('Resumed chapter 2 completes and opens chapter 3',second_result['result']['passed'] and request(base+'/map')[2]['status']=='AVAILABLE')
         # Revisit passed chapter, fail assessment; title and unlocked progress must remain.
         a=request(base+'/attempts','POST',{'chapterId':'c1','mode':'ASSESSMENT'},201);ap=base+'/attempts/'+a['id']
         for n in content[0]['npcs']:request(ap+'/talk','POST',{'npcId':n['id']})
@@ -71,7 +94,7 @@ with tempfile.TemporaryDirectory(prefix='history-process-',dir=scratch) as folde
             response=request(ap+'/answers','POST',{'requestId':str(uuid.uuid4()),'taskId':t['id'],'optionId':option})
             check('Assessment response hides correctness '+t['id'],response['result'] is None and 'correctOptionId' not in json.dumps(response))
         failure=request(ap+'/finish','POST');check('Failed assessment retained, previously revealed title remains',not failure['result']['passed'] and failure['displayTitle'].startswith(content[0]['title']))
-        for c in content[1:]:
+        for c in content[2:]:
             a=request(base+'/attempts','POST',{'chapterId':c['id'],'mode':'ASSESSMENT'},201);ap=base+'/attempts/'+a['id']
             for n in c['npcs']:request(ap+'/talk','POST',{'npcId':n['id']})
             for t in c['tasks']:
@@ -90,8 +113,9 @@ with tempfile.TemporaryDirectory(prefix='history-process-',dir=scratch) as folde
             except Exception:time.sleep(.2)
         check('Corruption reported without overwriting file',not health['ready'] and (work/'data/save.json').read_text()=='{broken')
         request('/players',status=503)
+        succeeded=True
     finally:
         stop(process);log.close()
-        shutil.copy2(work/'server.log',ROOT/'.tools/process-latest-server.log')
+        if not succeeded:print((work/'server.log').read_text(encoding='utf-8')[-7000:])
 out=ROOT/'docs/verification/process-results.json';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps({'checks':checks,'count':len(checks),'jar':Path(args.jar).name,'java':args.java},ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'Passed: {len(checks)} process/API checks, including real restart and ten chapters')

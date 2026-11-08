@@ -81,8 +81,13 @@ public class GameFacade {
     public AttemptView answer(String playerId,String id,String requestId,String taskId,String optionId) {
         return repository.transaction(s -> {
             var a=owned(s,playerId,id); var c=catalog.get(a.chapterId);
-            try { UUID.fromString(requestId); } catch(Exception e) { throw GameException.invalid("requestId должен быть UUID."); }
-            var receipt=a.requests.get(requestId);
+            String canonicalRequestId;
+            try {
+                canonicalRequestId = UUID.fromString(requestId).toString();
+                if (!canonicalRequestId.equalsIgnoreCase(requestId)) throw new IllegalArgumentException();
+            }
+            catch(Exception e) { throw GameException.invalid("requestId должен быть UUID."); }
+            var receipt=a.requests.get(canonicalRequestId);
             if(receipt!=null) {
                 if(!receipt.taskId().equals(taskId)||!receipt.optionId().equals(optionId)) throw GameException.conflict("Этот requestId уже использован для другого ответа.");
                 return view(s,a,receipt.feedback());
@@ -92,12 +97,12 @@ public class GameFacade {
             if(task.options().stream().noneMatch(o -> o.id().equals(optionId))) throw GameException.invalid("Выберите допустимый вариант ответа.");
             var strategy=attempts.strategy(a); var answer=strategy.check(task,optionId,a.answers.get(taskId));
             a.answers.put(taskId,answer); var feedback=strategy.feedback(task,answer);
-            a.requests.put(requestId,new Attempt.Receipt(taskId,optionId,feedback)); return view(s,a,feedback);
+            a.requests.put(canonicalRequestId,new Attempt.Receipt(taskId,optionId,feedback)); return view(s,a,feedback);
         });
     }
     public AttemptView finish(String playerId,String id) {
         return repository.transaction(s -> {
-            var a=owned(s,playerId,id); if(a.state==Attempt.State.COMPLETED) return view(s,a,"");
+            var a=owned(s,playerId,id); if(a.state==Attempt.State.COMPLETED) return view(s,a,"Результат и прогресс сохранены.");
             a.requireActive(); var c=catalog.get(a.chapterId); attempts.requireTalks(c,a);
             if(attempts.currentTask(c,a)!=null) throw GameException.conflict("Сначала выполните все задания.");
             a.complete(a.answers.values().stream().allMatch(Attempt.Answer::correct));

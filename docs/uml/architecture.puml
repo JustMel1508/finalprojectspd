@@ -14,6 +14,7 @@ class AttemptService
 class ResultService
 interface GameRepository
 class JsonGameRepository
+class SavedStateValidator
 class ContentCatalog
 class Player
 class PlayerProgress
@@ -31,6 +32,8 @@ GameFacade --> ResultService
 GameFacade --> GameRepository
 GameFacade --> ContentCatalog
 GameRepository <|.. JsonGameRepository
+JsonGameRepository -right-> SavedStateValidator
+SavedStateValidator -right-> ContentCatalog
 Player "1" -- "*" Attempt : playerId
 Player "1" -- "1" PlayerProgress
 Chapter "1" -- "*" Attempt : chapterId

@@ -1,6 +1,10 @@
 {
   "checks": [
     {
+      "check": "HTML, JavaScript, CSS, map and icon are served locally",
+      "status": "Passed"
+    },
+    {
       "check": "HTTP validation of empty/blank/long names",
       "status": "Passed"
     },
@@ -61,6 +65,26 @@
       "status": "Passed"
     },
     {
+      "check": "Restart with chapter 1 mastered restores partial chapter 2",
+      "status": "Passed"
+    },
+    {
+      "check": "Restart retains revealed chapter 1 and next-level access",
+      "status": "Passed"
+    },
+    {
+      "check": "Restart retains previous result and profile",
+      "status": "Passed"
+    },
+    {
+      "check": "Duplicate answer after process restart keeps same stage",
+      "status": "Passed"
+    },
+    {
+      "check": "Resumed chapter 2 completes and opens chapter 3",
+      "status": "Passed"
+    },
+    {
       "check": "Assessment response hides correctness c1-q1",
       "status": "Passed"
     },
@@ -74,22 +98,6 @@
     },
     {
       "check": "Failed assessment retained, previously revealed title remains",
-      "status": "Passed"
-    },
-    {
-      "check": "Idempotent API answer c2-q1",
-      "status": "Passed"
-    },
-    {
-      "check": "Idempotent API answer c2-q2",
-      "status": "Passed"
-    },
-    {
-      "check": "Idempotent API answer c2-map",
-      "status": "Passed"
-    },
-    {
-      "check": "Chapter c2 complete via HTTP",
       "status": "Passed"
     },
     {
@@ -241,7 +249,7 @@
       "status": "Passed"
     }
   ],
-  "count": 60,
+  "count": 62,
   "jar": "history-journey-1.0.0.jar",
   "java": "C:\\Users\\aikli\\.jdks\\ms-17.0.18\\bin\\java.exe"
 }
