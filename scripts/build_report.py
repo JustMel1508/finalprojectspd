@@ -74,7 +74,7 @@ def page_flow(text,wide):
         flow.append(Paragraph(markup(line),styles[style]));i+=1
     return flow
 
-out=ROOT/'output/pdf';out.mkdir(parents=True,exist_ok=True)
+out=ROOT/'docs/report';out.mkdir(parents=True,exist_ok=True)
 source=ROOT/'docs/report/REPORT.md';source.parent.mkdir(parents=True,exist_ok=True)
 if not source.exists(): raise FileNotFoundError('Editable report source missing: '+str(source))
 text=source.read_text(encoding='utf-8')

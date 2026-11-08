@@ -1,6 +1,6 @@
 # Фактические сценарии тестирования
 
-Команды: `./mvnw.cmd verify`, `python tools/process_smoke.py --java <JDK17>/bin/java.exe`, `node --check src/main/resources/static/app.js`, `node tools/ui_logic_test.cjs`. Итог текущего цикла: 48 Java-тестов, 62 HTTP/процессные проверки и 20 unit-проверок интерфейсной логики — Passed. Отчёты JUnit находятся в `target/surefire-reports`, сводка — в `docs/verification/RELEASE_CHECK.md`. Ручные браузерные проверки выделены отдельно и остаются Not run.
+Команды: `./mvnw.cmd verify`, `python tests/integration/process_smoke.py --java <JDK17>/bin/java.exe`, `node --check src/main/resources/static/app.js`, `node tests/ui/ui_logic_test.cjs`. Итог текущего цикла: 48 Java-тестов, 62 HTTP/процессные проверки и 20 unit-проверок интерфейсной логики — Passed. Отчёты JUnit находятся в `target/surefire-reports`, сводка — в `docs/verification/RELEASE_CHECK.md`. Ручные браузерные проверки выделены отдельно и остаются Not run.
 
 | ID | Предусловия / ввод | Шаги | Ожидание | Фактический результат | Способ / статус |
 | --- | --- | --- | --- | --- | --- |
@@ -26,7 +26,7 @@
 | T19 | Неполный Builder, неизвестный вариант фабрики | build / prepare | Отклонение несогласованных данных | Проверены 10 Builder, Quiz/Map products, неверные координаты | builderAndFactory...; Passed |
 | T20 | QuizResult + MapTaskResult | accept обоих Visitor | Двойная диспетчеризация, статистика и TXT | Проверены разные visit и координаты карты | bothVisitorsDoubleDispatch; Passed |
 | T21 | 8 одновременных create | threads, reload snapshot | Нет потерянных записей | Всего 9 профилей с demo | concurrentRequestsSerialized; Passed |
-| T22 | Модели DOM/Canvas, без браузера | 60/144 Hz, коллизии, фокус/blur, карта, изоляция pending, UUID после сбоя, двойное нажатие | Постоянная скорость, корректные стадии и ввод | Все 20 проверок Passed; просмотрены данные 10 сцен и 30 задач | node tools/ui_logic_test.cjs; Passed unit |
+| T22 | Модели DOM/Canvas, без браузера | 60/144 Hz, коллизии, фокус/blur, карта, изоляция pending, UUID после сбоя, двойное нажатие | Постоянная скорость, корректные стадии и ввод | Все 20 проверок Passed; просмотрены данные 10 сцен и 30 задач | node tests/ui/ui_logic_test.cjs; Passed unit |
 | T23 | Синтаксически корректный, но несогласованный JSON | Подмена chapterId/NPC/task/option, passed, счётчиков, прогресса и UUID; пропуск поля или повтор JSON-ключа | Обработанная ошибка 503, исходный файл нетронут | SavedStateValidationTest: 30 проверок Passed | Maven verify; Passed |
 
 Статус Passed означает реальную проверку указанного уровня. Автотест геометрии не является ручным UI-прохождением. Реальные скриншоты приложения отсутствуют; перед сдачей команда должна пройти T01/T11/T17b в браузере и добавить изображения карты, сцены и результата в отчёт.

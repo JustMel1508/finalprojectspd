@@ -1,9 +1,9 @@
 """Real separate-process API and restart verification, standard Python only.
-Usage: python tools/process_smoke.py --java /path/to/java [--jar /path/to/jar]
+Usage: python tests/integration/process_smoke.py --java /path/to/java [--jar /path/to/jar]
 """
 import argparse,json,subprocess,tempfile,time,uuid,urllib.request,urllib.error,socket
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[2]
 args=argparse.ArgumentParser()
 args.add_argument('--java',default='java');args.add_argument('--jar',default=str(ROOT/'target/history-journey-1.0.0.jar'))
 args=args.parse_args()

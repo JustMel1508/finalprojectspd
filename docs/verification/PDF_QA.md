@@ -1,13 +1,13 @@
 # Проверка PDF
 
-Отчёт создан ReportLab 5.1.0 с установленными Arial/Consolas; отдельные файлы шрифтов не распространяются. Для рендеринга использован официальный Apache PDFBox 3.0.5: Poppler в среде отсутствует. PDF содержит кириллический текст, таблицы, Java-фрагменты, URL источников и UML. Единственный редактируемый исходник — docs/report/REPORT.md; пересборка: `python tools/build_report.py`. Рендерер не содержит дублирующей версии текста и не перезаписывает исходник.
+Отчёт создан ReportLab 5.1.0 с установленными Arial/Consolas; отдельные файлы шрифтов не распространяются. Для рендеринга использован официальный Apache PDFBox 3.0.5: Poppler в среде отсутствует. PDF содержит кириллический текст, таблицы, Java-фрагменты, URL источников и UML. Единственный редактируемый исходник — docs/report/REPORT.md; пересборка: `python scripts/build_report.py`. Рендерер не содержит дублирующей версии текста и не перезаписывает исходник.
 
 Команды из папки проекта:
 
 ```powershell
-python tools/build_report.py
-& "$env:JAVA_HOME\bin\java.exe" '-Dpdfbox.fontcache=.tools' -jar .tools/pdfbox-app.jar render '-i=output/pdf/history-journey-report.pdf' '-format=png' '-dpi=90' '-prefix=tmp/pdfs/page'
-& "$env:JAVA_HOME\bin\java.exe" '-Dpdfbox.fontcache=.tools' -jar .tools/pdfbox-app.jar export:text '-i=output/pdf/history-journey-report.pdf' '-o=tmp/pdfs/report-text.txt'
+python scripts/build_report.py
+& "$env:JAVA_HOME\bin\java.exe" '-Dpdfbox.fontcache=.tools' -jar .tools/pdfbox-app.jar render '-i=docs/report/history-journey-report.pdf' '-format=png' '-dpi=90' '-prefix=tmp/pdfs/page'
+& "$env:JAVA_HOME\bin\java.exe" '-Dpdfbox.fontcache=.tools' -jar .tools/pdfbox-app.jar export:text '-i=docs/report/history-journey-report.pdf' '-o=tmp/pdfs/report-text.txt'
 ```
 
 Инструменты разработки находятся в .tools и не включаются в исходный архив. Для пересоздания PDF нужны Python, reportlab, pillow и установленные Windows Arial/Consolas; на другой ОС задайте разрешённые шрифты с кириллицей в build_report.py. Игровое приложение этих инструментов не требует.
@@ -15,5 +15,7 @@ python tools/build_report.py
 Визуально проверены все 18 отрисованных страниц: читаемая кириллица, переносы таблиц без обрезки, согласованные поля, номера страниц, читаемые диаграммы на альбомных листах. Полная последовательность вынесена в редактируемый и векторный отдельный файл; в отчёте два читаемых фрагмента. Извлечение текста проверяет обязательные разделы и имена команды. Гиперссылки источников сформированы как PDF link annotations.
 
 Заключительный PDF проверен после обновления результатов на 48 Java-тестов, 62 процессные проверки и 20 unit-тестов интерфейса. В архитектуре добавлен SavedStateValidator; после изменения схемы повторно отрисован весь PDF, изменился только лист 12, который проверен ещё раз. Остальные страницы совпали по SHA-256 с просмотренными изображениями.
+
+После упорядочивания папок PDF находится рядом с исходником в docs/report. В отчёте обновлены команды тестов. Повторно отрисованы все 18 страниц; по сравнению с ранее проверенным PDF изменился только лист 8. Он просмотрен, текст помещается в поля; остальные 17 страниц совпали по SHA-256.
 
 Реальные скриншоты UI отсутствуют: повторный запрос открытия вкладки локальной игры вернул «browser access host is unavailable». Статус этого критерия: Not run; диаграммы не объявляются скриншотами.

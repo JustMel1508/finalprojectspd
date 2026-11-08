@@ -6,5 +6,6 @@
   "processChecks": 62,
   "uiLogicUnitChecks": 20,
   "jarResourcesMatch": true,
-  "chapters": 10
+  "chapters": 10,
+  "structure": "src/main; tests/java,integration,ui; scripts; docs/report"
 }

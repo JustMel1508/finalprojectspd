@@ -4,6 +4,30 @@
 
 Команда: **Бахыт Карима, Адай Аида, Казбекова Айша**. Репозиторий: [JustMel1508/finalprojectspd](https://github.com/JustMel1508/finalprojectspd). Код и материалы созданы с AI-помощью Codex; фактический вклад указан в [CONTRIBUTIONS.md](CONTRIBUTIONS.md).
 
+## Структура проекта
+
+```text
+history-journey/
+├── src/main/java/           Java-сервер и игровая логика
+├── src/main/resources/      интерфейс, главы и настройки
+├── tests/
+│   ├── java/                JUnit-тесты
+│   ├── integration/         проверки отдельного Java-процесса
+│   └── ui/                  unit-тесты интерфейсной логики
+├── scripts/                 подготовка контента, PDF и комплекта
+├── docs/
+│   ├── report/              REPORT.md и итоговый PDF
+│   ├── uml/                 исходники и изображения диаграмм
+│   └── verification/        результаты проверок
+├── .mvn/                    Maven Wrapper
+├── pom.xml                  конфигурация сборки
+├── mvnw, mvnw.cmd           запуск Maven
+├── build.ps1, run.ps1       сборка и запуск в PowerShell
+└── dist/                    готовые JAR, PDF и исходный ZIP
+```
+
+`target/` создаётся при сборке, `data/` — при запуске игры. Личные сохранения, кеш `.tools/` и временная папка `tmp/` исключены из исходного архива.
+
 ## Сборка и запуск
 
 Нужен **JDK 17 или новее**. Maven Wrapper загружает Maven 3.9.12, поэтому отдельная установка Maven не требуется. Первая сборка требует доступа к Maven Central; после сборки приложение работает локально без сети.
@@ -59,20 +83,20 @@ java -jar target/history-journey-1.0.0.jar
 
 ```powershell
 .\mvnw.cmd verify
-python .\tools\process_smoke.py --java "$env:JAVA_HOME\bin\java.exe"
+python .\tests\integration\process_smoke.py --java "$env:JAVA_HOME\bin\java.exe"
 node --check .\src\main\resources\static\app.js
-node .\tools\ui_logic_test.cjs
+node .\tests\ui\ui_logic_test.cjs
 ```
 
-Java-тесты находятся в `src/test/java`. Процессный тест запускает отдельный JAR, проверяет все десять глав и полную остановку с восстановлением. Тесты JavaScript проверяют логику на макетах DOM/Canvas и не заменяют браузерную проверку. Фактические результаты сведены в [TEST_SCENARIOS.md](docs/TEST_SCENARIOS.md) и [RELEASE_CHECK.md](docs/verification/RELEASE_CHECK.md).
+Java-тесты находятся в `tests/java`. Процессный тест запускает отдельный JAR, проверяет все десять глав и полную остановку с восстановлением. Тесты JavaScript проверяют логику на макетах DOM/Canvas и не заменяют браузерную проверку. Фактические результаты сведены в [TEST_SCENARIOS.md](docs/TEST_SCENARIOS.md) и [RELEASE_CHECK.md](docs/verification/RELEASE_CHECK.md).
 
 Основной ручной сценарий проверки: создать профиль → обучение первого уровня → оба NPC → неверный ответ и повтор → остальные задания → итог → TXT → начать следующий уровень → остановить Java → запустить и продолжить. Для проверки финала последовательно пройти все десять глав и создать второй профиль с независимым прогрессом.
 
-- `docs/report/REPORT.md` и `output/pdf/history-journey-report.pdf` — редактируемый отчёт и PDF.
+- `docs/report/REPORT.md` и `docs/report/history-journey-report.pdf` — редактируемый отчёт и PDF.
 - `docs/uml/` — диаграммы классов и последовательности в `.puml`, SVG и PNG.
 - `docs/REQUIREMENTS_MATRIX.md` — соответствие критериям задания.
 - `docs/HISTORICAL_SOURCES.md`, `docs/ASSET_PROVENANCE.md` и `THIRD_PARTY_NOTICES.md` — источники и происхождение материалов.
 - `CONTRIBUTIONS.md` — вклад и раскрытие AI-помощи.
-- `dist/source.zip`, `dist/history-journey-1.0.0.jar` и `dist/SHA256SUMS.json` — исходный архив, исполняемый JAR и контрольные суммы. Архив собирается командой `python tools/package_release.py`.
+- `dist/source.zip`, `dist/history-journey-1.0.0.jar` и `dist/SHA256SUMS.json` — исходный архив, исполняемый JAR и контрольные суммы. Архив собирается командой `python scripts/package_release.py`.
 
 В комплект не входят личные сохранения, кеши зависимостей, временные файлы и отдельные материалы подготовки к защите. Самостоятельный вклад участников, индивидуальная защита и допустимость AI-помощи подтверждаются командой и преподавателем. Лицензия нового кода отдельно не выбрана; карта Natural Earth находится в public domain, остальные источники перечислены в notices.

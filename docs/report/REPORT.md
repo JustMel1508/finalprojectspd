@@ -177,7 +177,7 @@ StatisticsVisitor считает задания, правильные оконч
 
 Проверка геометрии не заменяет ручное прохождение сцены. Повторный process smoke после диагностики краткой блокировки OneDrive подтвердил все 62 проверки; обработка постоянного отказа записи проверена отдельным тестом.
 
-Запуск: ./mvnw.cmd verify; python tools/process_smoke.py --java <JDK17>/bin/java.exe. JavaScript: node --check src/main/resources/static/app.js. Тесты хранилища используют изолированные временные папки.
+Запуск тестов: ./mvnw.cmd verify; python tests/integration/process_smoke.py --java <JDK17>/bin/java.exe; node tests/ui/ui_logic_test.cjs. Тесты Java находятся в tests/java, хранилище проверяется в изолированных временных папках.
 
 <!-- PAGE -->
 # Main Body

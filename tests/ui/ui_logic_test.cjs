@@ -1,7 +1,7 @@
 // Unit tests of game input and time-step logic with a mocked canvas/DOM.
 // No browser is launched; these are not screenshots or a visual UI test.
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
-const root=path.resolve(__dirname,'..'),listeners={},storage=new Map();
+const root=path.resolve(__dirname,'..','..'),listeners={},storage=new Map();
 let clock=1000,storageDisabled=false,focusCount=0;
 class ClockDate extends Date {static now(){return clock;}}
 const ctx=new Proxy({measureText:s=>({width:s.length*8}),createLinearGradient:()=>({addColorStop(){}})},{get:(t,k)=>k in t?t[k]:()=>{}});
