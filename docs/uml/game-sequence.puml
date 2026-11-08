@@ -1,0 +1,56 @@
+@startuml
+skinparam backgroundColor #FFFEF9
+skinparam defaultFontName Arial
+skinparam sequenceArrowColor #456B65
+skinparam participantBackgroundColor #E7EEE5
+title Answer, completion and consistent persistence
+actor Player
+participant "Browser UI" as UI
+participant GameController as Controller
+participant GameFacade as Facade
+participant JsonGameRepository as Repo
+participant AttemptService as Service
+participant AnswerCheckingStrategy as Strategy
+participant ResultService as Results
+participant ChapterCompletedPublisher as Pub
+participant ProgressObserver as Progress
+participant CompletionStatisticsObserver as Stats
+Player -> UI : select answer
+UI -> Controller : POST answers(requestId, taskId, optionId)
+Controller -> Facade : answer(...)
+Facade -> Repo : transaction(candidate -> ...)
+Repo -> Repo : copy current state
+Facade -> Service : requireTalks / currentTask
+Service -> Strategy : canAdvance(previous)
+Facade -> Strategy : check / feedback
+Strategy --> Facade : accepted Answer + allowed feedback
+Facade -> Repo : persist candidate
+Repo -> Repo : temp + force + atomic move
+Repo -> Repo : publish state in memory
+Facade --> UI : AttemptView (assessment: no correctness)
+Player -> UI : finish chapter
+UI -> Controller : POST finish
+Controller -> Facade : finish(...)
+Facade -> Repo : transaction(candidate -> ...)
+Facade -> Service : requireTalks / no currentTask
+Facade -> Facade : Attempt.complete(passed)
+Facade -> Pub : publish ChapterCompleted
+Pub -> Progress : onCompleted(event, candidate)
+Pub -> Stats : onCompleted(event, candidate)
+Facade -> Results : view(chapter, attempt)
+Results -> Results : TaskResult.accept(StatisticsVisitor)
+Facade -> Repo : persist candidate
+Repo -> Repo : atomic move; publish memory
+Facade --> UI : result after successful commit
+note over Repo
+Failure: previous disk and memory retained;
+API returns 503, not completion confirmation.
+end note
+== Export ==
+UI -> Controller : GET export
+Controller -> Facade : export(...)
+Facade -> Repo : read snapshot
+Facade -> Results : export(...)
+Results -> Results : TaskResult.accept(TextReportVisitor)
+Results --> UI : UTF-8 TXT
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+!pragma layout smetana
+skinparam backgroundColor #FFFEF9
+skinparam classBackgroundColor #E7EEE5
+skinparam classBorderColor #456B65
+skinparam ArrowColor #456B65
+skinparam defaultFontName Arial
+hide empty members
+title Visitor - double dispatch
+class ResultService
+interface TaskResult <<Element>> {
+ accept(visitor)
+}
+class QuizResult
+class MapTaskResult
+interface ResultVisitor <<Visitor>> {
+ visit(QuizResult)
+ visit(MapTaskResult)
+}
+class StatisticsVisitor
+class TextReportVisitor
+TaskResult <|.. QuizResult
+TaskResult <|.. MapTaskResult
+ResultVisitor <|.. StatisticsVisitor
+ResultVisitor <|.. TextReportVisitor
+QuizResult --> ResultVisitor : visit(this)
+MapTaskResult --> ResultVisitor : visit(this)
+ResultService --> TaskResult
+ResultService --> StatisticsVisitor : result screen
+ResultService --> TextReportVisitor : UTF-8 export
+@enduml

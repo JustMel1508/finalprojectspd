@@ -1,0 +1,39 @@
+@startuml
+!pragma layout smetana
+skinparam backgroundColor #FFFEF9
+skinparam classBackgroundColor #E7EEE5
+skinparam classBorderColor #456B65
+skinparam ArrowColor #456B65
+skinparam defaultFontName Arial
+hide empty members
+title History Journey - domain and application
+class GameController
+class GameFacade <<Facade>>
+class ProfileService
+class AttemptService
+class ResultService
+interface GameRepository
+class JsonGameRepository
+class ContentCatalog
+class Player
+class PlayerProgress
+class Attempt {
+  state: ACTIVE | COMPLETED | CANCELLED
+  mode: LEARNING | ASSESSMENT
+  passed: boolean
+}
+class Chapter
+interface Task
+GameController --> GameFacade
+GameFacade --> ProfileService
+GameFacade --> AttemptService
+GameFacade --> ResultService
+GameFacade --> GameRepository
+GameFacade --> ContentCatalog
+GameRepository <|.. JsonGameRepository
+Player "1" -- "*" Attempt : playerId
+Player "1" -- "1" PlayerProgress
+Chapter "1" -- "*" Attempt : chapterId
+Chapter "1" *-- "3..*" Task
+ContentCatalog o-- Chapter
+@enduml

@@ -37,10 +37,15 @@ public class JsonGameRepository implements GameRepository {
     private void validate(GameState s) throws IOException {
         if (s == null || s.formatVersion != 1 || s.players == null || s.attempts == null || s.progress == null || s.statistics == null)
             throw new IOException("Unsupported save format");
-        for (var p : s.players.values()) if (p.id() == null || p.name() == null || p.avatar() == null || !s.progress.containsKey(p.id()) || !s.statistics.containsKey(p.id()))
+        for (var p : s.players.values()) if (p.id() == null || p.name() == null || p.name().isBlank() || p.avatar() == null || !s.progress.containsKey(p.id()) || !s.statistics.containsKey(p.id()) || !p.equals(s.players.get(p.id())))
             throw new IOException("Invalid player");
+        for (var p : s.progress.values()) if (p == null || p.completedChapters == null || p.processedEvents == null) throw new IOException("Invalid progress");
+        for (var stats : s.statistics.values()) if (stats == null || stats.processedEvents == null || stats.completed < 0 || stats.passed < 0 || stats.failed < 0 || stats.completed != stats.passed+stats.failed)
+            throw new IOException("Invalid statistics");
+        var activePlayers = new java.util.HashSet<String>();
         for (var a : s.attempts.values()) if (!s.players.containsKey(a.playerId) || a.state == null || a.mode == null || a.chapterId == null
-                || a.answers == null || a.visitedNpcs == null || a.requests == null || a.startedAt == null)
+                || a.id == null || s.attempts.get(a.id) != a || a.answers == null || a.visitedNpcs == null || a.requests == null || a.startedAt == null
+                || (a.state == Attempt.State.ACTIVE ? a.endedAt != null || !activePlayers.add(a.playerId) : a.endedAt == null))
             throw new IOException("Invalid attempt");
     }
     @Override public synchronized String problem() { return problem; }

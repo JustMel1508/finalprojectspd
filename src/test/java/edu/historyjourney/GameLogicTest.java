@@ -135,11 +135,23 @@ class GameLogicTest {
         details.forEach(r->{r.accept(stats);r.accept(text);});assertEquals(2,stats.summary().tasks());assertEquals(3,stats.summary().tries());assertEquals(2,stats.summary().errors());
         assertTrue(text.text().contains("Вопрос: Вопрос"));assertTrue(text.text().contains("Карта: Место"));assertTrue(text.text().contains("55.0, 51.0"));
     }
+    @Test void everyNpcReachableFromSafeStartAcrossAllTenScenes() {
+        for(var c:catalog.all()) {
+            var reached=new HashSet<String>();var queue=new ArrayDeque<int[]>();var seen=new HashSet<String>();queue.add(new int[]{120,440});
+            while(!queue.isEmpty()) {
+                var p=queue.remove();String key=p[0]+":"+p[1];if(!seen.add(key))continue;
+                if(p[0]<25||p[0]>935||p[1]<170||p[1]>510||c.obstacles().stream().anyMatch(o->p[0]>o.x()-13&&p[0]<o.x()+o.w()+13&&p[1]>o.y()-10&&p[1]<o.y()+o.h()+10))continue;
+                for(var n:c.npcs())if(Math.hypot(n.x()-p[0],n.y()-p[1])<60)reached.add(n.id());
+                for(var d:new int[][]{{10,0},{-10,0},{0,10},{0,-10}})if(!seen.contains((p[0]+d[0])+":"+(p[1]+d[1])))queue.add(new int[]{p[0]+d[0],p[1]+d[1]});
+            }
+            assertEquals(c.npcs().size(),reached.size(),"Unreachable NPC in "+c.id());
+        }
+    }
     @Test void concurrentRequestsSerialized() throws Exception {
         try(var ignored=new AutoCloseable(){public void close(){}}) {
             var threads=new ArrayList<Thread>();for(int i=0;i<8;i++){final int n=i;threads.add(new Thread(()->game.savePlayer(null,"Игрок "+n,Player.Avatar.HERO)));}
             threads.forEach(Thread::start);for(var t:threads)t.join();assertEquals(9,game.players().size());
-            var reload=new JsonGameRepository(mapper,directory.toString());assertEquals(9,reload.read(s->s.players.size()));
+            var reload=new JsonGameRepository(mapper,directory.toString());assertEquals(9,reload.read(s->s.players.size()).intValue());
         }
     }
 }

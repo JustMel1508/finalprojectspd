@@ -1,0 +1,42 @@
+@startuml
+!pragma layout smetana
+skinparam backgroundColor #FFFEF9
+skinparam classBackgroundColor #E7EEE5
+skinparam classBorderColor #456B65
+skinparam ArrowColor #456B65
+skinparam defaultFontName Arial
+hide empty members
+title Builder and Factory Method
+class ContentCatalog
+class ChapterDefinition
+class ChapterBuilder <<Builder>> {
+ definition(d)
+ tasks(tasks)
+ build(): Chapter
+}
+class Chapter
+class TaskCreatorRegistry
+abstract class TaskCreator <<Creator>> {
+ +prepare(definition): Task
+ #createTask(definition): Task
+}
+class QuizTaskCreator <<ConcreteCreator>>
+class MapTaskCreator <<ConcreteCreator>>
+interface Task <<Product>>
+class QuizTask <<ConcreteProduct>>
+class MapTask <<ConcreteProduct>>
+ContentCatalog --> ChapterDefinition : JSON
+ContentCatalog --> ChapterBuilder
+ContentCatalog --> TaskCreatorRegistry
+ChapterBuilder ..> Chapter : creates and validates
+ChapterBuilder --> Task
+TaskCreatorRegistry --> TaskCreator : selects creator
+TaskCreator <|-- QuizTaskCreator
+TaskCreator <|-- MapTaskCreator
+TaskCreator ..> Task : prepares
+QuizTaskCreator ..> QuizTask : creates
+MapTaskCreator ..> MapTask : creates
+Task <|.. QuizTask
+Task <|.. MapTask
+Chapter *-- Task
+@enduml

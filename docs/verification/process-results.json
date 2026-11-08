@@ -1,0 +1,247 @@
+{
+  "checks": [
+    {
+      "check": "HTTP validation of empty/blank/long names",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c1",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c2",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c3",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c4",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c5",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c6",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c7",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c8",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c9",
+      "status": "Passed"
+    },
+    {
+      "check": "Overview title masked c10",
+      "status": "Passed"
+    },
+    {
+      "check": "Separate Java process restores attempt, NPCs and answers",
+      "status": "Passed"
+    },
+    {
+      "check": "Profile rename and avatar persist",
+      "status": "Passed"
+    },
+    {
+      "check": "Finish idempotent and title revealed",
+      "status": "Passed"
+    },
+    {
+      "check": "UTF-8 export matches saved statistics",
+      "status": "Passed"
+    },
+    {
+      "check": "Assessment response hides correctness c1-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Assessment response hides correctness c1-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Assessment response hides correctness c1-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Failed assessment retained, previously revealed title remains",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c2-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c2-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c2-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c2 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c3-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c3-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c3-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c3 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c4-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c4-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c4-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c4 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c5-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c5-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c5-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c5 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c6-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c6-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c6-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c6 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c7-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c7-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c7-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c7 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c8-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c8-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c8-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c8 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c9-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c9-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c9-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c9 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c10-q1",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c10-q2",
+      "status": "Passed"
+    },
+    {
+      "check": "Idempotent API answer c10-map",
+      "status": "Passed"
+    },
+    {
+      "check": "Chapter c10 complete via HTTP",
+      "status": "Passed"
+    },
+    {
+      "check": "Ten chapters and final boundary",
+      "status": "Passed"
+    },
+    {
+      "check": "Full summary export",
+      "status": "Passed"
+    },
+    {
+      "check": "Independent progress",
+      "status": "Passed"
+    },
+    {
+      "check": "Cancellation keeps ten mastered chapters",
+      "status": "Passed"
+    },
+    {
+      "check": "Corruption reported without overwriting file",
+      "status": "Passed"
+    }
+  ],
+  "count": 60,
+  "jar": "history-journey-1.0.0.jar",
+  "java": "C:\\Users\\aikli\\.jdks\\ms-17.0.18\\bin\\java.exe"
+}
