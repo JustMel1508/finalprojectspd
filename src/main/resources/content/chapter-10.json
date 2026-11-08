@@ -74,7 +74,7 @@
       "correctOptionId": "o1",
       "hint": "Дату назвала Аружан.",
       "explanation": "Закон о государственной независимости принят 16 декабря 1991 года.",
-      "sourceId": "S10"
+      "sourceId": "S10b"
     },
     {
       "kind": "QUIZ",
@@ -103,7 +103,7 @@
       "correctOptionId": "o2",
       "hint": "Ориентируйтесь на 1991 год, а не на современную столицу.",
       "explanation": "В декабре 1991 года столицей была Алма-Ата.",
-      "sourceId": "S10"
+      "sourceId": "S10b"
     },
     {
       "kind": "MAP",
@@ -147,6 +147,12 @@
       "title": "Государственная независимость Казахстана",
       "url": "https://www.gov.kz/org/culture-kokshetau/press/news/details/1125430?lang=ru",
       "organization": "GOV.KZ"
+    },
+    {
+      "id": "S10b",
+      "title": "О государственной независимости Республики Казахстан. Конституционный закон от 16.12.1991",
+      "url": "https://adilet.zan.kz/rus/docs/Z910004400_",
+      "organization": "ИПС Әділет"
     }
   ]
 }

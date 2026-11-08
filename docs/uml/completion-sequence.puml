@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #FFFEF9
+skinparam defaultFontName Arial
+skinparam sequenceArrowColor #456B65
+skinparam participantBackgroundColor #E7EEE5
+title Completion transaction (detail of game-sequence)
+participant "UI / Controller" as UI
+participant GameFacade as F
+participant JsonGameRepository as R
+participant ChapterCompletedPublisher as P
+participant ProgressObserver as O1
+participant CompletionStatisticsObserver as O2
+UI -> F : finish(attemptId)
+F -> R : transaction(candidate)
+R -> R : copy persisted state
+F -> F : validate stage; complete(passed)
+F -> P : ChapterCompleted(attemptId, playerId, chapterId, passed)
+P -> O1 : onCompleted(event, candidate)
+O1 -> O1 : dedupe; update mastered chapters
+P -> O2 : onCompleted(event, candidate)
+O2 -> O2 : dedupe; count passed / failed
+F -> R : persist candidate
+R -> R : temp + force + ATOMIC_MOVE
+R -> R : publish in memory after commit
+F --> UI : allowed result DTO
+note over F,R
+Persistent write error: 503, old state retained.
+Repeated finish: same result, no new event.
+end note
+@enduml

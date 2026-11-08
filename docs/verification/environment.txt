@@ -1,0 +1,12 @@
+Date: 2026-11-08 Asia/Qyzylorda
+JDK: Microsoft OpenJDK 17.0.18
+Target release: 17
+Maven: 3.9.12; Wrapper plugin: 3.3.4 only-script
+Spring Boot: 3.5.7
+JUnit Jupiter: 5.12.2
+Python: 3.14.7
+ReportLab: 5.1.0
+Pillow: 13.0.0
+PlantUML: 1.2025.10
+Apache PDFBox: 3.0.5
+System java command: Java 8, not used for build

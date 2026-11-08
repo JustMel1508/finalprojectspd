@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #FFFEF9
+skinparam defaultFontName Arial
+skinparam sequenceArrowColor #456B65
+skinparam participantBackgroundColor #E7EEE5
+title Answer and export (details of game-sequence)
+participant "Browser UI" as UI
+participant GameController as C
+participant GameFacade as F
+participant AnswerCheckingStrategy as S
+participant JsonGameRepository as R
+participant ResultService as RS
+UI -> C : POST answers(UUID, taskId, optionId)
+C -> F : answer(...)
+F -> R : transaction(candidate)
+F -> F : ownership, NPCs, order, option
+F -> S : check(task, optionId, previous)
+S --> F : Answer
+F -> S : feedback(task, answer)
+F -> R : persist then publish snapshot
+F --> UI : safe DTO (assessment hides correctness)
+== After completion ==
+UI -> C : GET export
+C -> F : export(...)
+F -> R : read consistent snapshot
+F -> RS : export(chapter, attempt)
+RS -> RS : result.accept(TextReportVisitor)
+RS --> UI : UTF-8 TXT
+@enduml

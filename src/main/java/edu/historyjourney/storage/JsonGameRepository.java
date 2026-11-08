@@ -62,7 +62,10 @@ public class JsonGameRepository implements GameRepository {
         var candidate = copy(state);
         T result = operation.apply(candidate);
         try { validate(candidate); persist(candidate); }
-        catch (IOException e) { throw new GameException(503, "SAVE_FAILED", "Не удалось записать сохранение. Предыдущее состояние сохранено.", "Проверьте свободное место и доступ к папке data; повторите действие."); }
+        catch (IOException e) {
+            org.slf4j.LoggerFactory.getLogger(JsonGameRepository.class).warn("Save transaction rolled back: {}", e.toString());
+            throw new GameException(503, "SAVE_FAILED", "Не удалось записать сохранение. Предыдущее состояние сохранено.", "Проверьте свободное место и доступ к папке data; повторите действие.");
+        }
         state = candidate;
         return result;
     }
@@ -71,7 +74,18 @@ public class JsonGameRepository implements GameRepository {
         try {
             Files.write(temp, mapper.writeValueAsBytes(value), TRUNCATE_EXISTING);
             try (var channel = FileChannel.open(temp, WRITE)) { channel.force(true); }
-            Files.move(temp, directory.resolve("save.json"), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            // Windows indexers/sync tools can briefly hold the destination open.
+            // Every retry still uses an atomic replacement; persistent failure rolls back.
+            for (int retry=0; ; retry++) {
+                try {
+                    Files.move(temp, directory.resolve("save.json"), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+                    break;
+                } catch (AccessDeniedException e) {
+                    if (retry >= 5) throw e;
+                    try { Thread.sleep(30L*(retry+1)); }
+                    catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); throw new IOException("Save interrupted",interrupted); }
+                }
+            }
         } finally { Files.deleteIfExists(temp); }
     }
 }

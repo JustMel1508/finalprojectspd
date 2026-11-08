@@ -102,9 +102,10 @@ for i, row in enumerate(DATA,1):
     source_title=title if i!=7 else 'К. С. Алдажуманов. Голод 1931–1933 годов в Казахстане: проблемы истории и методологии'
     sources=[dict(id=sid,title=source_title,url=URLS[i-1],organization='Qazaqstan tarihy' if 'e-history' in URLS[i-1] else 'GOV.KZ')]
     if i==8: sources.append(dict(id='S08b',title='Вклад Казахстана в Победу',url='https://e-history.kz/ru/news/show/28638',organization='Qazaqstan tarihy'))
+    if i==10: sources.append(dict(id='S10b',title='О государственной независимости Республики Казахстан. Конституционный закон от 16.12.1991',url='https://adilet.zan.kz/rus/docs/Z910004400_',organization='ИПС Әділет'))
     tasks=[]
     for j,(prompt,choices,correct,hint,explanation) in enumerate(quizzes,1):
-        tasks.append(dict(kind='QUIZ',id=f'c{i}-q{j}',prompt=prompt,options=[dict(id=f'o{k}',label=v,lon=None,lat=None) for k,v in enumerate(choices)],correctOptionId=f'o{correct}',hint=hint,explanation=explanation,sourceId='S08b' if i==8 and j==2 else sid))
+        tasks.append(dict(kind='QUIZ',id=f'c{i}-q{j}',prompt=prompt,options=[dict(id=f'o{k}',label=v,lon=None,lat=None) for k,v in enumerate(choices)],correctOptionId=f'o{correct}',hint=hint,explanation=explanation,sourceId='S10b' if i==10 else 'S08b' if i==8 and j==2 else sid))
     correct=MAP_KEYS[i-1]
     # Common candidate geography is not an answer key; options are regional labels.
     keys=[correct]+[k for k in ['shu','turgai','almaata','orenburg','baikonur','akmola'] if k!=correct][:3]

@@ -1,7 +1,7 @@
 """Real separate-process API and restart verification, standard Python only.
 Usage: python tools/process_smoke.py --java /path/to/java [--jar /path/to/jar]
 """
-import argparse,json,subprocess,tempfile,time,uuid,urllib.request,urllib.error,socket,os
+import argparse,json,subprocess,tempfile,time,uuid,urllib.request,urllib.error,socket,os,shutil
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 args=argparse.ArgumentParser()
@@ -90,6 +90,8 @@ with tempfile.TemporaryDirectory(prefix='history-process-',dir=scratch) as folde
             except Exception:time.sleep(.2)
         check('Corruption reported without overwriting file',not health['ready'] and (work/'data/save.json').read_text()=='{broken')
         request('/players',status=503)
-    finally:stop(process);log.close()
+    finally:
+        stop(process);log.close()
+        shutil.copy2(work/'server.log',ROOT/'.tools/process-latest-server.log')
 out=ROOT/'docs/verification/process-results.json';out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps({'checks':checks,'count':len(checks),'jar':Path(args.jar).name,'java':args.java},ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'Passed: {len(checks)} process/API checks, including real restart and ten chapters')

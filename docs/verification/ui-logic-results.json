@@ -1,0 +1,33 @@
+{
+  "type": "Mocked unit tests, not browser QA",
+  "checks": [
+    {
+      "check": "Equal movement speed at 60 and 144 Hz",
+      "status": "Passed"
+    },
+    {
+      "check": "Movement pauses while dialog is open",
+      "status": "Passed"
+    },
+    {
+      "check": "Lost focus clears held keys",
+      "status": "Passed"
+    },
+    {
+      "check": "Name input keeps WASD as text",
+      "status": "Passed"
+    },
+    {
+      "check": "Russian keyboard layout moves character",
+      "status": "Passed"
+    },
+    {
+      "check": "Obstacle collision stops movement",
+      "status": "Passed"
+    },
+    {
+      "check": "Diagonal speed is normalized",
+      "status": "Passed"
+    }
+  ]
+}

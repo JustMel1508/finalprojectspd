@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-08",
+  "excludedNameMatchesInProduct": [],
+  "chapters": 10,
+  "npcs": 20,
+  "quizTasks": 20,
+  "mapTasks": 10,
+  "junit": [
+    {
+      "name": "edu.historyjourney.GameLogicTest",
+      "tests": "14",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "edu.historyjourney.HttpApiTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "uiStatus": "Not run: browser host unavailable; Computer Use stopped Chrome access because URL could not be determined",
+  "studentIndependentWork": "Not confirmed",
+  "sourceOrigin": "New AI-assisted implementation in separate history-journey directory"
+}
